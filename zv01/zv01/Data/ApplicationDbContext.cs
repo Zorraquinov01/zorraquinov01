@@ -15,5 +15,6 @@ namespace zv01.Data
         }
         public DbSet<zv01.Models.Evento> Evento { get; set; }
         public DbSet<zv01.Models.Reserva> Reserva { get; set; }
+        public DbSet<zv01.Models.AppRole> AppRole { get; set; }
     }
 }
