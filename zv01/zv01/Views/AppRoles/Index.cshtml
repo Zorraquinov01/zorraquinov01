@@ -12,14 +12,23 @@
     <title>Index</title>
 </head>
 <body>
+    <form asp-action="DeleteUser">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <p class="btn-position">
+            <button class="btn btn-primary" value="searchString">Add</button>
+
+            <input type="text" name="searchString" />
+    </form>
     <form asp-action="SearchUser">
         <p>
             <a asp-action="Create">Create New</a>
         </p>
         <p class="btn-position">
-            <button class="btn btn-primary" value="searchString" >Add</button>
-            
-        <input type="text" name="searchString" />
+            <button class="btn btn-primary" value="searchString">Add</button>
+
+            <input type="text" name="searchString" />
     </form>
     <table class="table">
         <thead>

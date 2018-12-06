@@ -44,6 +44,25 @@ namespace zv01.Controllers
             
         }
 
+        public async Task<IActionResult> DeleteUser(string searchString)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(searchString);
+
+            if (user != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user,"Administrador");
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Create", "Reservas");
+                //Create();
+
+            }
+            else
+            {
+                return RedirectToAction("Create", "Eventos");
+                //View(await user.ToListAsync());
+            }
+        }
+
         // GET: AppRoles
         public async Task<IActionResult> Index()
         {
