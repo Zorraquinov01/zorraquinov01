@@ -33,6 +33,23 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" role="button" aria-expanded="false" href="#" data-toggle="dropdown">Eventos <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a asp-area="" asp-controller="Eventos" asp-action="Index">Eventos</a></li>
+                            <li><a asp-area="" asp-controller="Eventos" asp-action="Create">Crear eventos</a></li>
+                            <li><a asp-area="" asp-controller="Eventos" asp-action="Edit">Editar eventos</a></li>
+                            <li><a asp-area="" asp-controller="Eventos" asp-action="Delete">Borrar eventos</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+
+
+
+
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
