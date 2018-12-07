@@ -13,6 +13,7 @@ using zv01.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using zv01.Models;
+using Microsoft.Extensions.Options;
 
 namespace zv01
 {
@@ -21,7 +22,7 @@ namespace zv01
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }
+        }    
 
         public IConfiguration Configuration { get; }
 
@@ -34,6 +35,7 @@ namespace zv01
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+          
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
