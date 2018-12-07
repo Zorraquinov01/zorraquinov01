@@ -49,7 +49,12 @@ namespace zv01.Controllers
             return View();
         }
 
-    
+        //public IActionResult Edit()
+        //{
+        //    return View();
+        //}
+
+
         // POST: Eventos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -61,6 +66,7 @@ namespace zv01.Controllers
             var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
             TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
             eventodate = eventodate.Add(ts);
+            evento.EventDate = eventodate;
 
             if (ModelState.IsValid)
             {
@@ -92,8 +98,15 @@ namespace zv01.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")] Evento evento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")]string time, Evento evento)
         {
+
+            DateTimeOffset eventodate = evento.EventDate;
+            var timeSpanVal = time.Split(':').Select(x => Convert.ToInt32(x)).ToList();
+            TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
+            eventodate = eventodate.Add(ts);
+            evento.EventDate = eventodate;
+
             if (id != evento.Id)
             {
                 return NotFound();
