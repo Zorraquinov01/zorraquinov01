@@ -45,8 +45,16 @@ namespace zv01.Areas.Identity.Pages.Account.Manage
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Nombre")]
+            public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Apellido")]
+            public string LastName { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -60,13 +68,20 @@ namespace zv01.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            AppUser appuser = await _userManager.FindByEmailAsync(email);
+            var firstName = appuser.FirstName;
+            var lastName = appuser.LastName;
+
 
             Username = userName;
 
             Input = new InputModel
             {
-                Email = email,
-                PhoneNumber = phoneNumber
+                //Email = email,
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName
+
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -86,17 +101,26 @@ namespace zv01.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var email = await _userManager.GetEmailAsync(user);
-            if (Input.Email != email)
+            if (Input.FirstName != user.FirstName)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
-                }
+                user.FirstName = Input.FirstName;
             }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            //var email = await _userManager.GetEmailAsync(user);
+            //if (Input.Email != email)
+            //{
+            //    var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+            //    if (!setEmailResult.Succeeded)
+            //    {
+            //        var userId = await _userManager.GetUserIdAsync(user);
+            //        throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+            //    }
+            //}
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
@@ -109,6 +133,7 @@ namespace zv01.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
