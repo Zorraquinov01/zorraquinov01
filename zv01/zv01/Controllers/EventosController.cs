@@ -68,6 +68,8 @@ namespace zv01.Controllers
             eventodate = eventodate.Add(ts);
             evento.EventDate = eventodate;
 
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(evento);
