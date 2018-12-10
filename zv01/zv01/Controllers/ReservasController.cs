@@ -68,41 +68,13 @@ namespace zv01.Controllers
                 FechaReserva = fecha
 
             };
+
              _context.Reserva.Add(r);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
         }
-        //Reserva cu = _context.Reserva.LastOrDefault(m => m.AppUser.Id == currentUser.Id);
-
-        //return RedirectToAction("Create", "Reservas");
-
-
-        //int idasign = _context.Evento.Where(x => x.Id) ;
-        //if (idasign != null)
-        //{
-        //    Reserva res = _context.Evento.LastOrDefault(m => m.Id == idasign);
-        //}
-        //_context.Reserva.EventoId.Add(idasign);
-        //await _context.SaveChangesAsync();
-        //DateTimeOffset eventodate = evento.EventDate;
-        //var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
-        //TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
-        //eventodate = eventodate.Add(ts);
-
-        //if (ModelState.IsValid)
-        //{
-        //    _context.Add(evento);
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-
-
-
-
-
-
-
+       
         // POST: Reservas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

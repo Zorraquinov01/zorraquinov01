@@ -39,9 +39,12 @@ namespace zv01.Controllers
             {
                 return NotFound();
             }
-            evento.Visitas = evento.Visitas +1;
-            _context.Evento.Update(evento);
-            await _context.SaveChangesAsync();
+            if (!User.IsInRole("Administrador") && !User.IsInRole("Pica"))
+            {
+                evento.Visitas = evento.Visitas + 1;
+                _context.Evento.Update(evento);
+                await _context.SaveChangesAsync();
+            }
 
             return View(evento);
             
