@@ -56,6 +56,8 @@
     </dl>
 </div>
 <div>
+    <button asp-controller="Reservas" asp-action="registerEvent" asp-route-id="@Model.Id">Evento</button>
+    <a asp-controller="Reservas" asp-action="registerEvent" asp-route-id="@Model.Id">Registrar Evento</a>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

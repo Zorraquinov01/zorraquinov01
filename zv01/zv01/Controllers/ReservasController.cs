@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace zv01.Controllers
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public ReservasController(ApplicationDbContext context)
+        public ReservasController(ApplicationDbContext context, UserManager<AppUser>userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Reservas
@@ -49,6 +52,57 @@ namespace zv01.Controllers
             return View();
         }
 
+       // Registrarse a un evento
+
+        public async Task<IActionResult> RegisterEvent(string time, Evento evento, AppUser appUser)
+        {
+            AppUser currentUser = await _userManager.GetUserAsync(User);
+            int idEvento = evento.Id;
+            DateTimeOffset fecha = DateTimeOffset.Now;
+
+            Reserva r = new Reserva
+            {
+                AppUser = currentUser,
+                EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1),
+                Evento = _context.Evento.Single(x => x.Id == idEvento),
+                FechaReserva = fecha
+
+            };
+             _context.Reserva.Add(r);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+        //Reserva cu = _context.Reserva.LastOrDefault(m => m.AppUser.Id == currentUser.Id);
+
+        //return RedirectToAction("Create", "Reservas");
+
+
+        //int idasign = _context.Evento.Where(x => x.Id) ;
+        //if (idasign != null)
+        //{
+        //    Reserva res = _context.Evento.LastOrDefault(m => m.Id == idasign);
+        //}
+        //_context.Reserva.EventoId.Add(idasign);
+        //await _context.SaveChangesAsync();
+        //DateTimeOffset eventodate = evento.EventDate;
+        //var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
+        //TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
+        //eventodate = eventodate.Add(ts);
+
+        //if (ModelState.IsValid)
+        //{
+        //    _context.Add(evento);
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
+
+
+
+
+
+
         // POST: Reservas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -80,6 +134,9 @@ namespace zv01.Controllers
             }
             return View(reserva);
         }
+
+
+
 
         // POST: Reservas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

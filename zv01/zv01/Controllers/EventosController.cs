@@ -85,6 +85,10 @@ namespace zv01.Controllers
             return View(evento);
         }
         
+        //Registrarse a un evento
+
+        
+
         // GET: Eventos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
