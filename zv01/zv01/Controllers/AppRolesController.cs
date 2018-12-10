@@ -15,25 +15,38 @@ namespace zv01.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
 
-        public AppRolesController(ApplicationDbContext context, UserManager<AppUser> userManager)
+        public AppRolesController(ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
+            
 
         }
-
-        public async Task<IActionResult> SearchUser(string searchString)
+       
+        public async Task<IActionResult> SearchUser(string searchString, int role)
         {
 
             AppUser user = await _userManager.FindByEmailAsync(searchString);
 
+
             if (user != null)
-            {              
-                await _userManager.AddToRoleAsync(user, "administrador");
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Create", "Reservas");
-                //Create();
+            {
+                if (role == 1)
+                {
+
+                    await _userManager.AddToRoleAsync(user, "Administrador");
+                    await _context.SaveChangesAsync();
+
+                }
+                else if (role == 2)
+                {
+                    await _userManager.AddToRoleAsync(user, "Pica");
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Index", "Home");
 
             }
             else
@@ -41,7 +54,7 @@ namespace zv01.Controllers
                 return RedirectToAction("Create", "Eventos");
                 //View(await user.ToListAsync());
             }
-            
+
         }
 
         public async Task<IActionResult> DeleteUser(string searchString)
@@ -50,7 +63,7 @@ namespace zv01.Controllers
 
             if (user != null)
             {
-                await _userManager.RemoveFromRoleAsync(user,"Administrador");
+                await _userManager.RemoveFromRoleAsync(user, "Administrador");
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Create", "Reservas");
                 //Create();

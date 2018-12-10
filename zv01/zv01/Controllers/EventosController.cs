@@ -39,12 +39,15 @@ namespace zv01.Controllers
             {
                 return NotFound();
             }
-            evento.Visitas = evento.Visitas +1;
-            _context.Evento.Update(evento);
-            await _context.SaveChangesAsync();
+            if (!User.IsInRole("Administrador") && !User.IsInRole("Pica"))
+            {
+                evento.Visitas = evento.Visitas + 1;
+                _context.Evento.Update(evento);
+                await _context.SaveChangesAsync();
+            }
 
             return View(evento);
-            
+
         }
 
         // GET: Eventos/Create
@@ -66,15 +69,15 @@ namespace zv01.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")]string time, Evento evento)
         {
-            
-                  
+
+
             DateTimeOffset eventodate = evento.EventDate;
             var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
             TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
             eventodate = eventodate.Add(ts);
-            
 
-            
+
+
 
 
 
@@ -86,7 +89,7 @@ namespace zv01.Controllers
             }
             return View(evento);
         }
-        
+
         // GET: Eventos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
