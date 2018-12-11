@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,30 @@ namespace zv01.Controllers
 {
     public class EventosController : Controller
     {
+        private readonly UserManager<AppUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public EventosController(ApplicationDbContext context)
+        public EventosController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Eventos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(AppUser appUser, Evento evento)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var usuariores= _context.Evento.Where(x => x.AppUser == currentUser);
+            if (currentUser==usuariores)
+            {
             return View(await _context.Evento.ToListAsync());
+
+            }
+            else
+            {
+                return View(await _context.Evento.ToListAsync());
+            }
+
         }
 
         // GET: Eventos/Details/5
