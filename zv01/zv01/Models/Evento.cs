@@ -14,6 +14,7 @@ namespace zv01.Models
         public string Place { get; set; }
         public int AforoActual { get; set; }
         public int AforoTotal { get; set; }
+        public int ListaEspera { get; set; }
         public AppUser AppUser { get; set; }
         public EstadoEvento Estado { get; set; }
         public int Visitas { get; set; }

@@ -72,7 +72,7 @@ namespace zv01.Controllers
              _context.Reserva.Add(r);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Eventos");
         }
        
         // POST: Reservas/Create

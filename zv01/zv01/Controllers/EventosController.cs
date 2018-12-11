@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,73 @@ namespace zv01.Controllers
     public class EventosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public EventosController(ApplicationDbContext context)
+        public EventosController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Eventos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(AppUser appUser, int option)
         {
+            if(option == 0)
+            {
             return View(await _context.Evento.ToListAsync());
+            }
+
+            else if (option == 1)
+            {
+                return View(await _context.Evento.OrderByDescending(evento => evento.Visitas).ToListAsync());
+
+            }
+            else if (option == 2)
+            {
+                return View(await _context.Evento.OrderByDescending(evento => evento.EventDate).ToListAsync());
+            }
+
+            else if (option == 3)
+            {
+                return View(await _context.Evento.OrderByDescending(evento => evento.AforoActual).ToListAsync());
+            }
+            else if (option == 4)
+            {
+                return View(await _context.Evento.OrderBy(evento => evento.AforoActual).ToListAsync());
+            }
+            else
+            {
+                return View();
+            }
+
         }
+
+        //public async Task<IActionResult> FilterBy(int option)
+        //{
+        //    if (option == 1)
+        //    {
+        //      return View(await _context.Evento.OrderByDescending(evento => evento.Visitas).ToListAsync());
+
+        //    }
+        //    else if (option == 2)
+        //    {
+        //      return View( await  _context.Evento.OrderByDescending(evento => evento.EventDate).ToListAsync()); 
+        //    }
+
+        //    else if (option == 3)
+        //    {
+        //        return View(await _context.Evento.OrderByDescending(evento => evento.AforoActual).ToListAsync());
+        //    }
+        //    else if (option == 4)
+        //    {
+        //        return View(await _context.Evento.OrderBy(evento => evento.AforoActual).ToListAsync());
+        //    }
+        //    else
+        //    {
+        //        return View();
+        //    }
+           
+        //}
 
         // GET: Eventos/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -41,13 +98,13 @@ namespace zv01.Controllers
             }
             if (!User.IsInRole("Administrador") && !User.IsInRole("Pica"))
             {
-                evento.Visitas = evento.Visitas + 1;
+                evento.Visitas = evento.Visitas+1;
                 _context.Evento.Update(evento);
                 await _context.SaveChangesAsync();
             }
 
             return View(evento);
-            
+
         }
 
         // GET: Eventos/Create
@@ -69,15 +126,15 @@ namespace zv01.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")]string time, Evento evento)
         {
-            
-                  
+
+
             DateTimeOffset eventodate = evento.EventDate;
             var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
             TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
             eventodate = eventodate.Add(ts);
-            
 
-            
+
+
 
             if (ModelState.IsValid)
             {
@@ -87,10 +144,10 @@ namespace zv01.Controllers
             }
             return View(evento);
         }
-        
+
         //Registrarse a un evento
 
-        
+
 
         // GET: Eventos/Edit/5
         public async Task<IActionResult> Edit(int? id)
