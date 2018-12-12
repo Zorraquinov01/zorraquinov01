@@ -30,16 +30,14 @@ namespace zv01.Controllers
         {
 
             AppUser user = await _userManager.FindByEmailAsync(searchString);
-
+            
 
             if (user != null)
             {
                 if (role == 1)
                 {
-
                     await _userManager.AddToRoleAsync(user, "Administrador");
                     await _context.SaveChangesAsync();
-
                 }
                 else if (role == 2)
                 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using zv01.Models;
@@ -12,6 +13,20 @@ namespace zv01.Controllers
     {
         public IActionResult Index()
         {
+            //System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient("smtp.live.com");
+            //var mail = new MailMessage();
+            //mail.From = new MailAddress("correoenvio");
+            //mail.To.Add("correodestinatario");
+            //mail.Subject = "PRUEBA ENVIO";
+            //mail.IsBodyHtml = true;
+            //string htmlBody;
+            //htmlBody = "!!El envio ha resultado!!";
+            //mail.Body = htmlBody;
+            //SmtpServer.Port = 587;
+            //SmtpServer.UseDefaultCredentials = false;
+            //SmtpServer.Credentials = new System.Net.NetworkCredential("mailaddress", "password");
+            //SmtpServer.EnableSsl = true;
+            //SmtpServer.Send(mail);
             return View();
         }
 

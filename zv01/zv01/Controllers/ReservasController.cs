@@ -16,7 +16,7 @@ namespace zv01.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        public ReservasController(ApplicationDbContext context, UserManager<AppUser>userManager)
+        public ReservasController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -52,29 +52,43 @@ namespace zv01.Controllers
             return View();
         }
 
-       // Registrarse a un evento
-
+        // Registrarse a un evento
         public async Task<IActionResult> RegisterEvent(string time, Evento evento, AppUser appUser)
         {
             AppUser currentUser = await _userManager.GetUserAsync(User);
             int idEvento = evento.Id;
             DateTimeOffset fecha = DateTimeOffset.Now;
-
-            Reserva r = new Reserva
+            Evento even = _context.Evento.Include(x=>x.Estado).Single(x => x.Id == idEvento);
+            if (even.Estado.Id == 1)
             {
-                AppUser = currentUser,
-                EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1),
-                Evento = _context.Evento.Single(x => x.Id == idEvento),
-                FechaReserva = fecha
+                Reserva r = new Reserva
+                {
+                    AppUser = currentUser,
+                    EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1),
+                    Evento = _context.Evento.Single(x => x.Id == idEvento),
+                    FechaReserva = fecha
+                };
 
-            };
-
-             _context.Reserva.Add(r);
+            _context.Reserva.Add(r);
             await _context.SaveChangesAsync();
+            }       
+            else if(even.Estado.Id == 4)
+            {
+                Reserva r = new Reserva
+                {
+                    AppUser = currentUser,
+                    EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 2),
+                    Evento = _context.Evento.Single(x => x.Id == idEvento),
+                    FechaReserva = fecha
+                };
+
+                _context.Reserva.Add(r);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction("Index", "Eventos");
         }
-       
+
         // POST: Reservas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -177,6 +191,14 @@ namespace zv01.Controllers
         private bool ReservaExists(int id)
         {
             return _context.Reserva.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> ReservasUsuario()
+        {
+            AppUser usuario = await _userManager.GetUserAsync(User);
+            List<Reserva> userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento).ToListAsync();
+
+            return View(userReservas);
         }
     }
 }
