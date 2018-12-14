@@ -200,5 +200,13 @@ namespace zv01.Controllers
 
             return View(userReservas);
         }
+
+        public async Task<IActionResult> EventosUsuario()
+        {
+
+            AppUser usuario = await _userManager.GetUserAsync(User);
+            List<Evento> userEventos = await _context.Evento.Where(x => x.AppUser.Id == usuario.Id).ToListAsync();
+            return View(userEventos);
+        }
     }
 }

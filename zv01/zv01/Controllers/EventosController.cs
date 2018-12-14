@@ -172,10 +172,12 @@ namespace zv01.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         private bool EventoExists(int id)
         {
             return _context.Evento.Any(e => e.Id == id);
         }
+
 
         private async Task<IActionResult> Filter(int option)
         {

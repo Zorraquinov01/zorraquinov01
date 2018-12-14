@@ -12,5 +12,6 @@ namespace zv01.Models
         public AppUser AppUser { get; set; }
         public DateTimeOffset FechaReserva {get; set;}
         public EstadoReserva EstadoReserva { get; set; }
+        public QRImg QRs { get; set; }
     }
 }
