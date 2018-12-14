@@ -103,7 +103,7 @@ namespace zv01.Controllers
         {
             return View();
         }
-        public IActionResult AdminPnl()
+        public IActionResult AdminPanel()
         {
             return View();
         }
