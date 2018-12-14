@@ -18,5 +18,6 @@ namespace zv01.Models
         public AppUser AppUser { get; set; }
         public EstadoEvento Estado { get; set; }
         public int Visitas { get; set; }
+        public EventImg Imgs { get; set; }
     }
 }
