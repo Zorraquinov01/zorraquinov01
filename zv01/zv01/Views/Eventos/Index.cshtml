@@ -5,12 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Listado de Eventos</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Crear evento</a>
 </p>
-<form asp-action="Index">    
+<h4>&nbsp;</h4>
+<form asp-action="ILista de eventos">
     <select name="option">
         <option>Filtrar por...</option>
         <option value="1">Más vistos</option>
@@ -18,9 +19,9 @@
         <option value="3">Más reservas</option>
         <option value="4">Menos reservas</option>
     </select>
-    <div class="btn-position">
-        <button class="btn btn-primary">Add</button>
-    </div>
+    @*<div class="btn-position">
+            <button class="btn btn-primary">Add</button>
+        </div>*@
 </form>
 
 <table class="table">
