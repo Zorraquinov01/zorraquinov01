@@ -32,16 +32,13 @@
             </div>
         </form>
         <h4>&nbsp;</h4>
-        <div class="form-group">
-            <label asp-for="Description" class="control-label"></label>
-            <textarea asp-for="Description" class="form-control" rows="7" cols="40"></textarea>
-            @*<input asp-for="Description" class="form-control" />*@
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-
+     
     </div>
-    <div class="col-md-4">
-        <form asp-action="Create">
+          
+    <form asp-action="Create">
+
+
+        <div class="col-md-4">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -57,12 +54,12 @@
             </div>
 
             @*<div class="form-group">
-                    <label asp-for="EventDate" class="control-label"></label>
-                    <input asp-for="EventDate" id="date" class="form-control" type="date"/>
-                    <input asp-for="EventDate" id="time" class="form-control" type="time" />
-                    <span asp-validation-for="EventDate" class="text-danger"></span>
-                </div>*@
-            
+                <label asp-for="EventDate" class="control-label"></label>
+                <input asp-for="EventDate" id="date" class="form-control" type="date"/>
+                <input asp-for="EventDate" id="time" class="form-control" type="time" />
+                <span asp-validation-for="EventDate" class="text-danger"></span>
+            </div>*@
+
             <div class="form-group">
                 <label asp-for="Place" class="control-label"></label>
                 <input asp-for="Place" class="form-control" />
@@ -85,17 +82,27 @@
             </div>
 
             @*<div class="form-group">
-                    <label asp-for="Estado" class="control-label"></label>
-                    <input asp-for="Estado" class="form-control" />
-                    <span asp-validation-for="Estado" class="text-danger"></span>
-                </div>*@
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>*@
 
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
-        </form>
-    </div>
+
+
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="7" cols="40"></textarea>
+                @*<input asp-for="Description" class="form-control" />*@
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div>

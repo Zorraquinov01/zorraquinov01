@@ -25,12 +25,12 @@ namespace zv01.Controllers
         // GET: Eventos
         public async Task<IActionResult> Index(AppUser appUser, int option)
         {
-            return await Filter(option);
+            return await FilterBy(option);
 
         }
         public async Task<IActionResult> ListadoEventos(AppUser appUser, int option)
         {
-            return await Filter(option);
+            return await FilterBy(option);
 
         }
 
@@ -69,10 +69,10 @@ namespace zv01.Controllers
         public async Task<IActionResult> Create([Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")]string time, Evento evento)
         {
             
-            DateTimeOffset eventodate = evento.EventDate;
+            DateTimeOffset eventodates = evento.EventDate;
             var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
             TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
-            eventodate = eventodate.Add(ts);
+            evento.EventDate= eventodates.Add(ts);
             evento.Estado = _context.EstadoEventos.Single(x => x.Id == 1);  
             
 
@@ -183,7 +183,7 @@ namespace zv01.Controllers
         }
 
 
-        private async Task<IActionResult> Filter(int option)
+        private async Task<IActionResult> FilterBy(int option)
         {
             if (option == 0)
             {
