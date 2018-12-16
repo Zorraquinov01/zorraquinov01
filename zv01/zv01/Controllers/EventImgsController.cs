@@ -23,14 +23,14 @@ namespace zv01.Controllers
         private readonly AzureStorageConfig _storageConfig;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
-       
+
 
         public EventImgsController(ApplicationDbContext context, IConfiguration Configuration, IOptions<AzureStorageConfig> storageConfig)
         {
             _storageConfig = storageConfig.Value;
             _context = context;
             _configuration = Configuration;
-           
+
 
         }
 
@@ -40,7 +40,7 @@ namespace zv01.Controllers
         }
 
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        public async Task<IActionResult> Post(List<IFormFile> files, [Bind("id,ImgUrl")] EventImg eventImg)
         {
             var uploadSuccess = false;
 
@@ -65,19 +65,23 @@ namespace zv01.Controllers
                 // OPTION B: read directly from stream for blob upload      
                 using (var stream = formFile.OpenReadStream())
                 {
-                   
-                    uploadSuccess = await UploadFileToStorage(stream, formFile.FileName, _storageConfig);
+
+                    uploadSuccess = await UploadFileToStorage(stream, formFile.FileName, _storageConfig, eventImg);
                 }
 
             }
 
             if (uploadSuccess)
-                return View("UploadSuccess");
+            {
+                return RedirectToAction("Create", "Eventos");
+            }
             else
+            {
                 return View("UploadError");
+            }
         }
 
-        public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, AzureStorageConfig _storageConfig)
+        public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, AzureStorageConfig _storageConfig, [Bind("id,ImgUrl")] EventImg eventImg)
         {
             // Create storagecredentials object by reading the values from the configuration (appsettings.json)
             StorageCredentials storageCredentials = new StorageCredentials(_storageConfig.AccountName, _storageConfig.AccountKey);
@@ -98,7 +102,13 @@ namespace zv01.Controllers
             await blockBlob.UploadFromStreamAsync(fileStream);
 
             var blobUrl = blockBlob.Uri.AbsoluteUri;
+            var img = new EventImg
+            {
+                ImgUrl = blobUrl
+            };
 
+            _context.Add(img);
+            await _context.SaveChangesAsync();
             return await Task.FromResult(true);
         }
 

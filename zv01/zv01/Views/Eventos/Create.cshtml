@@ -10,15 +10,16 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <div>
+        <div id="file-preview-zone"> @*ESTE ID ES LO DEL JS DE ABAJO DEL TODO. AUN FALTA CAMBIAR CSS PARA ALTURA Y ANCHURA DE FOTO*@
             @*Imagen a cambiar*@
-            <img class="img-responsive" src="~/images/Create/portada.jpg" />
+            
+            <img class="img-responsive" @*src="~/images/Create/portada.jpg"*@ />
         </div>
         <form method="post" enctype="multipart/form-data" asp-controller="EventImgs" asp-action="Post">
             <div class="form-group">
                 <div class="col-md-10">
-                    <p>Upload one or more files using this form:</p>
-                    <input type="file" name="files" multiple />
+                    <p>Upload one file using this form:</p>
+                    <input id="file-upload" type="file" name="files" acept="image/*" />
                 </div>
             </div>
             <h4>&nbsp;</h4>
@@ -112,3 +113,29 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var filePreview = document.createElement('img');
+                filePreview.id = 'file-preview';
+                //e.target.result contents the base64 data from the image uploaded
+                filePreview.src = e.target.result;
+                console.log(e.target.result);
+
+                var previewZone = document.getElementById('file-preview-zone');
+                previewZone.appendChild(filePreview);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    var fileUpload = document.getElementById('file-upload');
+    fileUpload.onchange = function (e) {
+        readFile(e.srcElement);
+    }
+
+</script>

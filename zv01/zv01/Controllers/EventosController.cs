@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using zv01.Data;
 using zv01.Models;
 
@@ -15,22 +16,25 @@ namespace zv01.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly AzureStorageConfig _config;
 
-        public EventosController(ApplicationDbContext context, UserManager<AppUser> userManager)
+
+        public EventosController(ApplicationDbContext context, UserManager<AppUser> userManager, IOptions<AzureStorageConfig> config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config.Value;
         }
 
         // GET: Eventos
         public async Task<IActionResult> Index(AppUser appUser, int option)
         {
-            return await FilterBy(option);
+            return await Filter(option);
 
         }
         public async Task<IActionResult> ListadoEventos(AppUser appUser, int option)
         {
-            return await FilterBy(option);
+            return await Filter(option);
 
         }
 
@@ -61,6 +65,7 @@ namespace zv01.Controllers
         // GET: Eventos/Create
         public IActionResult Create()
         {
+
             return View();
         }
 
@@ -69,10 +74,10 @@ namespace zv01.Controllers
         public async Task<IActionResult> Create([Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")]string time, Evento evento)
         {
             
-            DateTimeOffset eventodates = evento.EventDate;
+            DateTimeOffset eventodate = evento.EventDate;
             var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
             TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
-            evento.EventDate= eventodates.Add(ts);
+            evento.EventDate = eventodate.Add(ts);
             evento.Estado = _context.EstadoEventos.Single(x => x.Id == 1);  
             
 
@@ -113,8 +118,9 @@ namespace zv01.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")]string time, Evento evento)
         {
 
+            
             DateTimeOffset eventodate = evento.EventDate;
-            var timeSpanVal = time.Split(':').Select(x => Convert.ToInt32(x)).ToList();
+            var timeSpanVal = time.Split(':').Select(x => Convert.ToInt32(x)).Take(2).ToList();
             TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
             eventodate = eventodate.Add(ts);
             evento.EventDate = eventodate;
@@ -183,7 +189,7 @@ namespace zv01.Controllers
         }
 
 
-        private async Task<IActionResult> FilterBy(int option)
+        private async Task<IActionResult> Filter(int option)
         {
             if (option == 0)
             {
