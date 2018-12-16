@@ -7,25 +7,11 @@
 
 <h2>Listado de Eventos</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Crear evento</a>
-</p>
-<h4>&nbsp;</h4>
-<form asp-action="ILista de eventos">
-    <select name="option">
-        <option>Filtrar por...</option>
-        <option value="1">Más vistos</option>
-        <option value="2">Fecha</option>
-        <option value="3">Más reservas</option>
-        <option value="4">Menos reservas</option>
-    </select>
-    @*<div class="btn-position">
-            <button class="btn btn-primary">Add</button>
-        </div>*@
-</form>
 
-<table class="table">
-    <thead>
+
+
+
+@*<thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.EventName)
@@ -50,38 +36,54 @@
             </th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
+    </thead>*@
+
+<div class="container">
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Place)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AforoActual)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AforoTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Visitas)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="col-lg-4 col-sm-12">
+                <figure class="snip1543">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample108.jpg" alt="sample108" />
+                    <figcaption>
+                        <h3>  @Html.DisplayFor(modelItem => item.EventName) </h3>
+                        <p>  @Html.DisplayFor(modelItem => item.EventDate) <br /> @Html.DisplayFor(modelItem => item.Description)</p>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+
+
+
+            @*<tr>
+                    <td></td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Place)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AforoActual)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AforoTotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Visitas)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>*@
         }
-    </tbody>
-</table>
+
+    </div>
+</div>
+
+<script src="~/js/events.js" asp-append-version="true"></script>

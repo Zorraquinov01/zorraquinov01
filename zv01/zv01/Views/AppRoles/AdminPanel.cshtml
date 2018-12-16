@@ -1,8 +1,16 @@
-﻿
+﻿@model zv01.Models.Evento
 @{
-    ViewData["Title"] = "AdminPanel";
+    ViewData["Title"] = "Admin Panel";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>AdminPanel</h2>
+<h2>Admin Panel</h2>
+
+<hr />
+<p>Bienvenido al menú de Administrador ;)</p>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
 

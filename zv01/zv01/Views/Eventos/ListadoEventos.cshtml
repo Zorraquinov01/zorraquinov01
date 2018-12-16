@@ -1,0 +1,89 @@
+﻿@model IEnumerable<zv01.Models.Evento>
+
+@{
+    ViewData["Title"] = "Listado de Eventos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Listado de Eventos</h2>
+
+
+
+<p>
+¡Elige el evento que deseas Editar!.
+</p>
+<h4>&nbsp;</h4>
+<form asp-action="ILista de eventos">
+    <select name="option">
+        <option>Filtrar por...</option>
+        <option value="1">Más vistos</option>
+        <option value="2">Fecha</option>
+        <option value="3">Más reservas</option>
+        <option value="4">Menos reservas</option>
+    </select>
+    @*<div class="btn-position">
+            <button class="btn btn-primary">Add</button>
+        </div>*@
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Place)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AforoActual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AforoTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Visitas)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Place)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AforoActual)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AforoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Visitas)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

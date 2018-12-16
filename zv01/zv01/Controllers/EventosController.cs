@@ -28,7 +28,11 @@ namespace zv01.Controllers
             return await Filter(option);
 
         }
+        public async Task<IActionResult> ListadoEventos(AppUser appUser, int option)
+        {
+            return await Filter(option);
 
+        }
 
         public async Task<IActionResult> Details(int? id)
         {

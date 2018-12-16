@@ -59,47 +59,23 @@
             
             
             <li>
-                <a href="">
-                    <i class="fa fa-home fa-2x"></i>
-
-                    <span class="nav-text">
-                        Dashboard
-                    </span>
-                    
-                </a>
+                <a asp-controller="Eventos" asp-action="ListadoEventos"> <i class=" fa fa-calendar fa-2x"></i> <span class="nav-text">  Eventos </span></a>
                 <ul class="dropdown-menu-right">
                     <li class="has-subnav">
-                        <a class="dropdown-backdrop"href="#">
-                            <i class="fa fa-home fa-2x"></i>
-
-                            <span class="nav-text">
-                                Span 1
-                            </span>
-
-                        </a>
+                        <a asp-controller="Eventos" asp-action="Create"> <i class="fa fa-pencil fa-2x"></i> <span class="nav-text"> Crear Eventos </span></a>
+                           
                     </li>
                     <li class="has-subnav">
-                        <a href="#">
-                            <i class="fa fa-home fa-2x"></i>
-
-                            <span class="nav-text">
-                                Span 2
-                            </span>
-
-                        </a>
+                        <a asp-controller="Eventos" asp-action="ListadoEventos"> <i class="fa fa-home fa-2x"></i> <span class="nav-text"> Editar Eventos </span></a>
+                    
                     </li>
                 </ul>
             </li>
             <li class="has-subnav">
-                <a href="#">
-                    <i class="fa fa-laptop fa-2x"></i>
-                    <span class="nav-text">
-                        Stars Components
-                    </span>
-                </a>
+                <a asp-controller="AppRoles" asp-action="Index"> <i class=" fa fa-check-square fa-2x"></i> <span class="nav-text">  Roles de usuarios </span></a>
 
             </li>
-            <li class="has-subnav">
+            @*<li class="has-subnav">
                 <a href="#">
                     <i class="fa fa-list fa-2x"></i>
                     <span class="nav-text">
@@ -168,7 +144,7 @@
                     </span>
                 </a>
             </li>
-        </ul>
+        </ul>*@
     </nav>
     <div class="container body-content">
         @RenderBody()
