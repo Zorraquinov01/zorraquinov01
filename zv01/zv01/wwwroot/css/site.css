@@ -36,7 +36,10 @@ body {
     }
 }
 
-
+.imagenpeque{
+    width:100px;
+    height:100px;
+}
 
 
 #qrcode {
@@ -45,3 +48,8 @@ body {
     margin-top: 15px;
 }
 
+.posic{
+    position:absolute;
+    top: 0;
+    left: 0;
+}
