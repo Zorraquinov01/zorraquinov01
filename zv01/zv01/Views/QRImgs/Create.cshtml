@@ -4,15 +4,17 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
     //gr
+
+    string hola = "pruebas";
 }
 <link rel="stylesheet" type="text/css" href="~/css/QR.css">
 
-
+@*<img src='http://chart.apis.google.com/chart?cht=qr&chl=@hola&chs=150'' alt='qr' />");*@
 
     <div id="form-wrapper" style="width:46%; float:left; border:5px solid rgba(255,255,255,0.6); margin-top:20px; padding:10px">
         <form id="generator">
            
-            <input type="text" onclick="qrFunction()" id="codeData" name="codeData" size="50" placeholder="Enter a url or text" style="margin-top:20px" autocomplete="off"/ >
+            <input type="text"  id="codeData" name="codeData" size="50" placeholder="Enter a url or text" style="margin-top:20px" autocomplete="off"/ >
             <br>
             <button id="generate">generate</button>
         </form>

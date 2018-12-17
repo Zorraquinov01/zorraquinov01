@@ -32,6 +32,12 @@ namespace zv01.Controllers
 
             return View();
         }
+        public IActionResult Details()
+        {
+
+
+            return View();
+        }
 
         //    [HttpPost("UploadFiles")]
         //    public async Task<IActionResult> PostQr(List<IFormFile> files)
