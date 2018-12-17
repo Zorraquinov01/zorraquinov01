@@ -51,7 +51,7 @@ namespace zv01.Controllers
             {
                 return NotFound();
             }
-            if (!User.IsInRole("Administrador") && !User.IsInRole("Pica"))
+            else if(!User.IsInRole("Administrador") && !User.IsInRole("Pica"))
             {
                 evento.Visitas = evento.Visitas+1;
                 _context.Evento.Update(evento);

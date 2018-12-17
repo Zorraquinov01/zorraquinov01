@@ -29,7 +29,7 @@ namespace zv01.Controllers
     //    public IActionResult Index()
     //    {
 
-        
+
     //        return View();
     //    }
 
@@ -140,13 +140,13 @@ namespace zv01.Controllers
     //    {
     //        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     //    }
-    
+
 
     //public QRImgsController(ApplicationDbContext context)
     //    {
     //        _context = context;
     //    }
-     
+
 
     //    // GET: QRImgs/Details/5
     //    public async Task<IActionResult> Details(int? id)
@@ -182,7 +182,8 @@ namespace zv01.Controllers
     //        if (ModelState.IsValid)
     //        {
     //            _context.Add(qRImg);
-    //            await _context.SaveChangesAsync();
+    //            await _context.
+    Async();
     //            return RedirectToAction(nameof(Index));
     //        }
     //        return View(qRImg);

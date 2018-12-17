@@ -28,11 +28,11 @@ namespace zv01.Controllers
        
         public async Task<IActionResult> SearchUser(string searchString, int role)
         {
-
             AppUser user = await _userManager.FindByEmailAsync(searchString);
+            var userInRole = _context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
             
 
-            if (user != null)
+            if (user != null && userInRole == null)
             {
                 if (role == 1)
                 {

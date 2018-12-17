@@ -19,5 +19,6 @@ namespace zv01.Models
         public EstadoEvento Estado { get; set; }
         public int Visitas { get; set; }
         public EventImg Imgs { get; set; }
+        public bool EstaBorrado { get; set; }
     }
 }
