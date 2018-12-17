@@ -14,7 +14,13 @@
         <ul class="nav navbar-nav navbar-right">
             @if (User.HasClaim("administrador", "administrador"))
             {
-            <li> <a asp-controller="AppRoles" asp-action="AdminPanel">Admin Panel</a></li>
+                <li> <a asp-controller="AppRoles" asp-action="AdminPanel">Admin Panel</a></li>
+                <li> <a asp-controller="QRImgs" asp-action="Details">QR Reader</a></li>
+            }
+            @if (User.HasClaim("pica", "pica"))
+            {
+                
+                <li> <a asp-controller="QRImgs" asp-action="Details">QR Reader</a></li>
             }
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
