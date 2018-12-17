@@ -227,7 +227,7 @@ namespace zv01.Controllers
 
             if (_context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento) != null)
             {
-                userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento).ToListAsync();
+                userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento).Include(x=>x.EstadoReserva).ToListAsync();
             }
             else
             {
