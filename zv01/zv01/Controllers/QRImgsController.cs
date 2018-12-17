@@ -16,261 +16,261 @@ using zv01.Models;
 
 namespace zv01.Controllers
 {
-    //public class QRImgsController : Controller
-    //{
-    //    private readonly ApplicationDbContext _context;
-    //    private IConfiguration _configuration;
+    public class QRImgsController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        //private IConfiguration _configuration;
 
-    //    public QRImgsController(IConfiguration Configuration)
-    //    {
-    //        _configuration = Configuration;
-    //    }
+        //public QRImgsController(IConfiguration Configuration)
+        //{
+        //    _configuration = Configuration;
+        //}
 
-    //    public IActionResult Index()
-    //    {
+        public IActionResult Create()
+        {
 
-        
-    //        return View();
-    //    }
 
-    //    [HttpPost("UploadFiles")]
-    //    public async Task<IActionResult> PostQr(List<IFormFile> files)
-    //    {
-    //        var uploadSuccess = false;
+            return View();
+        }
 
-    //        foreach (var formFile in files)
-    //        {
-    //            if (formFile.Length <= 0)
-    //            {
-    //                continue;
-    //            }
+        //    [HttpPost("UploadFiles")]
+        //    public async Task<IActionResult> PostQr(List<IFormFile> files)
+        //    {
+        //        var uploadSuccess = false;
 
-    //            // NOTE: uncomment either OPTION A or OPTION B to use one approach over another
+        //        foreach (var formFile in files)
+        //        {
+        //            if (formFile.Length <= 0)
+        //            {
+        //                continue;
+        //            }
 
-    //            // OPTION A: convert to byte array before upload
-    //            //using (var ms = new MemoryStream())
-    //            //{
-    //            //    formFile.CopyTo(ms);
-    //            //    var fileBytes = ms.ToArray();
-    //            //    uploadSuccess = await UploadToBlob(formFile.FileName, fileBytes, null);
+        //            // NOTE: uncomment either OPTION A or OPTION B to use one approach over another
 
-    //            //}
+        //            // OPTION A: convert to byte array before upload
+        //            //using (var ms = new MemoryStream())
+        //            //{
+        //            //    formFile.CopyTo(ms);
+        //            //    var fileBytes = ms.ToArray();
+        //            //    uploadSuccess = await UploadToBlob(formFile.FileName, fileBytes, null);
 
-    //            // OPTION B: read directly from stream for blob upload      
-    //            using (var stream = formFile.OpenReadStream())
-    //            {
-    //                uploadSuccess = await UploadToBlob(formFile.FileName, null, stream);
-    //            }
+        //            //}
 
-    //        }
+        //            // OPTION B: read directly from stream for blob upload      
+        //            using (var stream = formFile.OpenReadStream())
+        //            {
+        //                uploadSuccess = await UploadToBlob(formFile.FileName, null, stream);
+        //            }
 
-    //        if (uploadSuccess)
-    //            return View("UploadSuccess");
-    //        else
-    //            return View("UploadError");
-    //    }
+        //        }
 
-    //    private async Task<bool> UploadToBlob(string filename, byte[] imageBuffer = null, Stream stream = null)
-    //    {
-    //        CloudStorageAccount storageAccount = null;
-    //        CloudBlobContainer cloudBlobContainer = null;
-    //        string storageConnectionString = _configuration["AzureStorageConfig"];
+        //        if (uploadSuccess)
+        //            return View("UploadSuccess");
+        //        else
+        //            return View("UploadError");
+        //    }
 
-    //        // Check whether the connection string can be parsed.
-    //        if (CloudStorageAccount.TryParse(storageConnectionString, out storageAccount))
-    //        {
-    //            try
-    //            {
-    //                // Create the CloudBlobClient that represents the Blob storage endpoint for the storage account.
-    //                CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
+        //    private async Task<bool> UploadToBlob(string filename, byte[] imageBuffer = null, Stream stream = null)
+        //    {
+        //        CloudStorageAccount storageAccount = null;
+        //        CloudBlobContainer cloudBlobContainer = null;
+        //        string storageConnectionString = _configuration["AzureStorageConfig"];
 
-    //                // Create a container called 'uploadblob' and append a GUID value to it to make the name unique. 
-    //                cloudBlobContainer = cloudBlobClient.GetContainerReference("uploadblob" + Guid.NewGuid().ToString());
-    //                await cloudBlobContainer.CreateAsync();
+        //        // Check whether the connection string can be parsed.
+        //        if (CloudStorageAccount.TryParse(storageConnectionString, out storageAccount))
+        //        {
+        //            try
+        //            {
+        //                // Create the CloudBlobClient that represents the Blob storage endpoint for the storage account.
+        //                CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
 
-    //                // Set the permissions so the blobs are public. 
-    //                BlobContainerPermissions permissions = new BlobContainerPermissions
-    //                {
-    //                    PublicAccess = BlobContainerPublicAccessType.Blob
-    //                };
-    //                await cloudBlobContainer.SetPermissionsAsync(permissions);
+        //                // Create a container called 'uploadblob' and append a GUID value to it to make the name unique. 
+        //                cloudBlobContainer = cloudBlobClient.GetContainerReference("uploadblob" + Guid.NewGuid().ToString());
+        //                await cloudBlobContainer.CreateAsync();
 
-    //                // Get a reference to the blob address, then upload the file to the blob.
-    //                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filename);
+        //                // Set the permissions so the blobs are public. 
+        //                BlobContainerPermissions permissions = new BlobContainerPermissions
+        //                {
+        //                    PublicAccess = BlobContainerPublicAccessType.Blob
+        //                };
+        //                await cloudBlobContainer.SetPermissionsAsync(permissions);
 
-    //                if (imageBuffer != null)
-    //                {
-    //                    // OPTION A: use imageBuffer (converted from memory stream)
-    //                    await cloudBlockBlob.UploadFromByteArrayAsync(imageBuffer, 0, imageBuffer.Length);
-    //                }
-    //                else if (stream != null)
-    //                {
-    //                    // OPTION B: pass in memory stream directly
-    //                    await cloudBlockBlob.UploadFromStreamAsync(stream);
-    //                }
-    //                else
-    //                {
-    //                    return false;
-    //                }
+        //                // Get a reference to the blob address, then upload the file to the blob.
+        //                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filename);
 
-    //                return true;
-    //            }
-    //            catch (StorageException ex)
-    //            {
-    //                return false;
-    //            }
-    //            finally
-    //            {
-    //                // OPTIONAL: Clean up resources, e.g. blob container
-    //                //if (cloudBlobContainer != null)
-    //                //{
-    //                //    await cloudBlobContainer.DeleteIfExistsAsync();
-    //                //}
-    //            }
-    //        }
-    //        else
-    //        {
-    //            return false;
-    //        }
+        //                if (imageBuffer != null)
+        //                {
+        //                    // OPTION A: use imageBuffer (converted from memory stream)
+        //                    await cloudBlockBlob.UploadFromByteArrayAsync(imageBuffer, 0, imageBuffer.Length);
+        //                }
+        //                else if (stream != null)
+        //                {
+        //                    // OPTION B: pass in memory stream directly
+        //                    await cloudBlockBlob.UploadFromStreamAsync(stream);
+        //                }
+        //                else
+        //                {
+        //                    return false;
+        //                }
 
-    //    }
+        //                return true;
+        //            }
+        //            catch (StorageException ex)
+        //            {
+        //                return false;
+        //            }
+        //            finally
+        //            {
+        //                // OPTIONAL: Clean up resources, e.g. blob container
+        //                //if (cloudBlobContainer != null)
+        //                //{
+        //                //    await cloudBlobContainer.DeleteIfExistsAsync();
+        //                //}
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
 
-    //    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    //    public IActionResult Error()
-    //    {
-    //        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    //    }
-    
+        //    }
 
-    //public QRImgsController(ApplicationDbContext context)
-    //    {
-    //        _context = context;
-    //    }
-     
+        //    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //    public IActionResult Error()
+        //    {
+        //        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //    }
 
-    //    // GET: QRImgs/Details/5
-    //    public async Task<IActionResult> Details(int? id)
-    //    {
-    //        if (id == null)
-    //        {
-    //            return NotFound();
-    //        }
 
-    //        var qRImg = await _context.QRImg
-    //            .FirstOrDefaultAsync(m => m.Id == id);
-    //        if (qRImg == null)
-    //        {
-    //            return NotFound();
-    //        }
+        public QRImgsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-    //        return View(qRImg);
-    //    }
 
-    //    // GET: QRImgs/Create
-    //    public IActionResult Create()
-    //    {
-    //        return View();
-    //    }
+        //    // GET: QRImgs/Details/5
+        //    public async Task<IActionResult> Details(int? id)
+        //    {
+        //        if (id == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //    // POST: QRImgs/Create
-    //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public async Task<IActionResult> Create([Bind("Id,QRUrl")] QRImg qRImg)
-    //    {
-    //        if (ModelState.IsValid)
-    //        {
-    //            _context.Add(qRImg);
-    //            await _context.SaveChangesAsync();
-    //            return RedirectToAction(nameof(Index));
-    //        }
-    //        return View(qRImg);
-    //    }
+        //        var qRImg = await _context.QRImg
+        //            .FirstOrDefaultAsync(m => m.Id == id);
+        //        if (qRImg == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //    // GET: QRImgs/Edit/5
-    //    public async Task<IActionResult> Edit(int? id)
-    //    {
-    //        if (id == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //        return View(qRImg);
+        //    }
 
-    //        var qRImg = await _context.QRImg.FindAsync(id);
-    //        if (qRImg == null)
-    //        {
-    //            return NotFound();
-    //        }
-    //        return View(qRImg);
-    //    }
+        //    // GET: QRImgs/Create
+        //    public IActionResult Create()
+        //    {
+        //        return View();
+        //    }
 
-    //    // POST: QRImgs/Edit/5
-    //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public async Task<IActionResult> Edit(int id, [Bind("Id,QRUrl")] QRImg qRImg)
-    //    {
-    //        if (id != qRImg.Id)
-    //        {
-    //            return NotFound();
-    //        }
+        //    // POST: QRImgs/Create
+        //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> Create([Bind("Id,QRUrl")] QRImg qRImg)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            _context.Add(qRImg);
+        //            await _context.SaveChangesAsync();
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //        return View(qRImg);
+        //    }
 
-    //        if (ModelState.IsValid)
-    //        {
-    //            try
-    //            {
-    //                _context.Update(qRImg);
-    //                await _context.SaveChangesAsync();
-    //            }
-    //            catch (DbUpdateConcurrencyException)
-    //            {
-    //                if (!QRImgExists(qRImg.Id))
-    //                {
-    //                    return NotFound();
-    //                }
-    //                else
-    //                {
-    //                    throw;
-    //                }
-    //            }
-    //            return RedirectToAction(nameof(Index));
-    //        }
-    //        return View(qRImg);
-    //    }
+        //    // GET: QRImgs/Edit/5
+        //    public async Task<IActionResult> Edit(int? id)
+        //    {
+        //        if (id == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //    // GET: QRImgs/Delete/5
-    //    public async Task<IActionResult> Delete(int? id)
-    //    {
-    //        if (id == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //        var qRImg = await _context.QRImg.FindAsync(id);
+        //        if (qRImg == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        return View(qRImg);
+        //    }
 
-    //        var qRImg = await _context.QRImg
-    //            .FirstOrDefaultAsync(m => m.Id == id);
-    //        if (qRImg == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //    // POST: QRImgs/Edit/5
+        //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> Edit(int id, [Bind("Id,QRUrl")] QRImg qRImg)
+        //    {
+        //        if (id != qRImg.Id)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //        return View(qRImg);
-    //    }
+        //        if (ModelState.IsValid)
+        //        {
+        //            try
+        //            {
+        //                _context.Update(qRImg);
+        //                await _context.SaveChangesAsync();
+        //            }
+        //            catch (DbUpdateConcurrencyException)
+        //            {
+        //                if (!QRImgExists(qRImg.Id))
+        //                {
+        //                    return NotFound();
+        //                }
+        //                else
+        //                {
+        //                    throw;
+        //                }
+        //            }
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //        return View(qRImg);
+        //    }
 
-    //    // POST: QRImgs/Delete/5
-    //    [HttpPost, ActionName("Delete")]
-    //    [ValidateAntiForgeryToken]
-    //    public async Task<IActionResult> DeleteConfirmed(int id)
-    //    {
-    //        var qRImg = await _context.QRImg.FindAsync(id);
-    //        _context.QRImg.Remove(qRImg);
-    //        await _context.SaveChangesAsync();
-    //        return RedirectToAction(nameof(Index));
-    //    }
+        //    // GET: QRImgs/Delete/5
+        //    public async Task<IActionResult> Delete(int? id)
+        //    {
+        //        if (id == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //    private bool QRImgExists(int id)
-    //    {
-    //        return _context.QRImg.Any(e => e.Id == id);
-    //    }
-    //}
+        //        var qRImg = await _context.QRImg
+        //            .FirstOrDefaultAsync(m => m.Id == id);
+        //        if (qRImg == null)
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        return View(qRImg);
+        //    }
+
+        //    // POST: QRImgs/Delete/5
+        //    [HttpPost, ActionName("Delete")]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> DeleteConfirmed(int id)
+        //    {
+        //        var qRImg = await _context.QRImg.FindAsync(id);
+        //        _context.QRImg.Remove(qRImg);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    private bool QRImgExists(int id)
+        //    {
+        //        return _context.QRImg.Any(e => e.Id == id);
+        //    }
+    }
 }
