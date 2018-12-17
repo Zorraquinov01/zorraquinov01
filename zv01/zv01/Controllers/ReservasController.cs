@@ -22,6 +22,7 @@ namespace zv01.Controllers
             _userManager = userManager;
         }
 
+
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
@@ -58,7 +59,7 @@ namespace zv01.Controllers
             AppUser currentUser = await _userManager.GetUserAsync(User);
             int idEvento = evento.Id;
             DateTimeOffset fecha = DateTimeOffset.Now;
-            Evento even = _context.Evento.Include(x=>x.Estado).Single(x => x.Id == idEvento);
+            Evento even = _context.Evento.Include(x => x.Estado).Single(x => x.Id == idEvento);
             if (even.Estado.Id == 1)
             {
                 Reserva r = new Reserva
@@ -66,20 +67,31 @@ namespace zv01.Controllers
                     AppUser = currentUser,
                     EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1),
                     Evento = _context.Evento.Single(x => x.Id == idEvento),
-                    FechaReserva = fecha
-                };
+                    FechaReserva = fecha,
 
-            _context.Reserva.Add(r);
-            await _context.SaveChangesAsync();
-            }       
-            else if(even.Estado.Id == 4)
+                    EstaBorrado = false,
+                    HaAsistido = false
+                };
+                _context.Reserva.Add(r);
+                await _context.SaveChangesAsync();
+
+                QRImg qr = new QRImg
+                {
+                    QRUrl = "http://chart.apis.google.com/chart?cht=qr&chl=" + "r" + "&chs=150"
+                };
+                _context.QRImg.Add(qr);
+                await _context.SaveChangesAsync();
+            }
+            else if (even.Estado.Id == 4)
             {
                 Reserva r = new Reserva
                 {
                     AppUser = currentUser,
                     EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 2),
                     Evento = _context.Evento.Single(x => x.Id == idEvento),
-                    FechaReserva = fecha
+                    FechaReserva = fecha,
+                    EstaBorrado = false,
+                    HaAsistido = false
                 };
 
                 _context.Reserva.Add(r);

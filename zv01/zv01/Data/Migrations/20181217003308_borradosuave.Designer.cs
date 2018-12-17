@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using zv01.Data;
 
 namespace zv01.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181217003308_borradosuave")]
+    partial class borradosuave
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,8 +302,6 @@ namespace zv01.Data.Migrations
                     b.Property<int?>("EventoId");
 
                     b.Property<DateTimeOffset>("FechaReserva");
-
-                    b.Property<bool>("HaAsistido");
 
                     b.Property<int?>("QRsId");
 

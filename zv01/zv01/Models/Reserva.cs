@@ -14,5 +14,6 @@ namespace zv01.Models
         public EstadoReserva EstadoReserva { get; set; }
         public QRImg QRs { get; set; }
         public bool EstaBorrado { get; set; }
+        public bool HaAsistido { get; set; }
     }
 }
