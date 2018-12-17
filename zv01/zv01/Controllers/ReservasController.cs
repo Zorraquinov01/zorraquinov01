@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using zv01.Data;
 using zv01.Models;
 
+
 namespace zv01.Controllers
 {
     public class ReservasController : Controller
@@ -58,33 +59,42 @@ namespace zv01.Controllers
         {
             AppUser currentUser = await _userManager.GetUserAsync(User);
             int idEvento = evento.Id;
+            bool isRegistered = true;
             DateTimeOffset fecha = DateTimeOffset.Now;
             Evento even = _context.Evento.Include(x => x.Estado).Single(x => x.Id == idEvento);
-            if (even.Estado.Id == 1)
+            Reserva r = new Reserva();
+            List<Reserva> userReservas = await _context.Reserva.Where(x => x.AppUser.Id == currentUser.Id).Include(x => x.Evento).ToListAsync();
+
+            foreach (var reserva in userReservas.Where(x => x.AppUser.Id == currentUser.Id))
             {
-                Reserva r = new Reserva
+                if (reserva.Evento.Id == idEvento)
+                {
+                    isRegistered = true;
+                    return RedirectToAction("Registered", "Reservas");
+                }
+                else
+                {
+                    isRegistered = false;
+                }
+            }
+
+            if (even.Estado.Id == 1 && !isRegistered)
+            {
+                r = new Reserva
                 {
                     AppUser = currentUser,
                     EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1),
                     Evento = _context.Evento.Single(x => x.Id == idEvento),
                     FechaReserva = fecha,
-
                     EstaBorrado = false,
                     HaAsistido = false
                 };
                 _context.Reserva.Add(r);
                 await _context.SaveChangesAsync();
-
-                QRImg qr = new QRImg
-                {
-                    QRUrl = "http://chart.apis.google.com/chart?cht=qr&chl=" + "r" + "&chs=150"
-                };
-                _context.QRImg.Add(qr);
-                await _context.SaveChangesAsync();
             }
-            else if (even.Estado.Id == 4)
+            else if (even.Estado.Id == 4 && !isRegistered)
             {
-                Reserva r = new Reserva
+                r = new Reserva
                 {
                     AppUser = currentUser,
                     EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 2),
@@ -97,8 +107,12 @@ namespace zv01.Controllers
                 _context.Reserva.Add(r);
                 await _context.SaveChangesAsync();
             }
+            return View(r);
+        }
 
-            return RedirectToAction("Index", "Eventos");
+        public async Task<IActionResult> Registered()
+        {
+            return View();
         }
 
         // POST: Reservas/Create
@@ -208,8 +222,17 @@ namespace zv01.Controllers
         public async Task<IActionResult> ReservasUsuario()
         {
             AppUser usuario = await _userManager.GetUserAsync(User);
-            List<Reserva> userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento).ToListAsync();
+            List<Reserva> userReservas = new List<Reserva>();
 
+
+            if (_context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento) != null)
+            {
+                userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento).ToListAsync();
+            }
+            else
+            {
+                return RedirectToAction("EmptyList", "Reservas");
+            }
             return View(userReservas);
         }
 

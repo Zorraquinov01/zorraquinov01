@@ -193,7 +193,8 @@ namespace zv01.Controllers
         {
             if (option == 0)
             {
-                return View(await _context.Evento.ToListAsync());
+                List<Evento> eventos = await _context.Evento.Include(x=>x.Imgs).ToListAsync();
+                return View(eventos);
             }
 
             else if (option == 1)

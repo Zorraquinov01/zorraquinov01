@@ -111,16 +111,16 @@ namespace zv01.Areas.Identity.Pages.Account.Manage
                 user.LastName = Input.LastName;
             }
 
-            //var email = await _userManager.GetEmailAsync(user);
-            //if (Input.Email != email)
-            //{
-            //    var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-            //    if (!setEmailResult.Succeeded)
-            //    {
-            //        var userId = await _userManager.GetUserIdAsync(user);
-            //        throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
-            //    }
-            //}
+            var email = await _userManager.GetEmailAsync(user);
+            if (Input.Email != email)
+            {
+                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+                if (!setEmailResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+                }
+            }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)

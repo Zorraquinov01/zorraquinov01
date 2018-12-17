@@ -40,7 +40,7 @@ namespace zv01.Controllers
         }
 
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(List<IFormFile> files, [Bind("id,ImgUrl")] EventImg eventImg)
+        public async Task<IActionResult> Post(List<IFormFile> files, [Bind("id,ImgUrl")] EventImg eventImg, [Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")] Evento evento, string time)
         {
             var uploadSuccess = false;
 
@@ -66,7 +66,7 @@ namespace zv01.Controllers
                 using (var stream = formFile.OpenReadStream())
                 {
 
-                    uploadSuccess = await UploadFileToStorage(stream, formFile.FileName, _storageConfig, eventImg);
+                    uploadSuccess = await UploadFileToStorage(stream, formFile.FileName, _storageConfig, eventImg, evento, time);
                 }
 
             }
@@ -80,8 +80,9 @@ namespace zv01.Controllers
                 return View("UploadError");
             }
         }
-
-        public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, AzureStorageConfig _storageConfig, [Bind("id,ImgUrl")] EventImg eventImg)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, AzureStorageConfig _storageConfig, [Bind("id,ImgUrl")] EventImg eventImg, [Bind("Id,EventName,EventDate,Description,Place,AforoActual,AforoTotal,Visitas")] Evento evento, string time)
         {
             // Create storagecredentials object by reading the values from the configuration (appsettings.json)
             StorageCredentials storageCredentials = new StorageCredentials(_storageConfig.AccountName, _storageConfig.AccountKey);
@@ -109,6 +110,20 @@ namespace zv01.Controllers
 
             _context.Add(img);
             await _context.SaveChangesAsync();
+
+            DateTimeOffset eventodate = evento.EventDate;
+            var timeSpanVal = time.ToString().Split(':').Select(x => Convert.ToInt32(x)).ToList();
+            TimeSpan ts = new TimeSpan(timeSpanVal[0], timeSpanVal[1], 00);
+            evento.EventDate = eventodate.Add(ts);
+            evento.Estado = _context.EstadoEventos.Single(x => x.Id == 1);
+            evento.Imgs = img;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(evento);
+                await _context.SaveChangesAsync();
+                
+            }
             return await Task.FromResult(true);
         }
 
