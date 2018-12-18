@@ -41,6 +41,7 @@ namespace zv01.Controllers
 
         public IActionResult QrChecker(string codigoQr, string dropdownId)
         {
+
             return View();
         }
 

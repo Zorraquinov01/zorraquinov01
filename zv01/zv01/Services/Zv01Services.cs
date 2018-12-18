@@ -44,6 +44,11 @@ namespace zv01.Services
             List<Evento> eventList = _context.Evento.ToList();
             return eventList;
         }
+        public List<Reserva> ReservasList()
+        {
+            List<Reserva> reservasList = _context.Reserva.ToList();
+            return reservasList;
+        }
 
     }
 

@@ -1,15 +1,18 @@
-﻿@model zv01.Models.QRImg
+﻿@model zv01.Models.Reserva
+@inject zv01.Services.Zv01Services Zv01Services
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
     //gr
 
-    string hola = "Hola Itziar , Funciona";
+
+    //string qrgeneratedtext =  ;
+
 }
 <link rel="stylesheet" type="text/css" href="~/css/QR.css">
 
-<img src='http://chart.apis.google.com/chart?cht=qr&chl=@hola&chs=150' alt='qr' />");
+@*<img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' alt='qr' />");*@
 
     @*<div id="form-wrapper" style="width:46%; float:left; border:5px solid rgba(255,255,255,0.6); margin-top:20px; padding:10px">
         <form id="generator">
