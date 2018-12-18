@@ -106,6 +106,9 @@ function read(a) {
         let codigoAEnviar = document.getElementById("codigoQr");
         codigoAEnviar.value = a; //qr.response
         let formularioQr = document.getElementById("formQr");
+        let valorSelect = document.getElementById("dropdownId").value;
+        let selectAEnviar = document.getElementById("dropdownvalue");
+        selectAEnviar.value = valorSelect;
         formularioQr.submit();
     }
 
