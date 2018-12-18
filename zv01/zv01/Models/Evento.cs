@@ -10,6 +10,7 @@ namespace zv01.Models
         public int Id { get; set; }
         public string EventName { get; set; }
         public DateTimeOffset EventDate { get; set; }
+        public string Categoria { get; set; }
         public string Description { get; set; }
         public string Place { get; set; }
         public int AforoActual { get; set; }

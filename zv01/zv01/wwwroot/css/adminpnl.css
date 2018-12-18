@@ -18,6 +18,9 @@ body{
     font-size: 20px;
 }
 
+.fa-stack-2x {
+    font-size: 2em
+}
 
 .main-menuss:hover, nav.main-menuss.expanded {
     width: 250px;
