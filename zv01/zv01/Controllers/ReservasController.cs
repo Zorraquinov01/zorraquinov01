@@ -27,7 +27,7 @@ namespace zv01.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.ToListAsync());
+            return View(await _context.Reserva.Where(x => x.EstaBorrado == false).ToListAsync());
         }
 
         // GET: Reservas/Details/5
@@ -54,6 +54,31 @@ namespace zv01.Controllers
             return View();
         }
 
+        public IActionResult EmptyList()
+        {
+            return View();
+        }
+        public IActionResult ReservasPorEvento()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ReservasPorEvento(int evento, Evento even, Reserva reserva)
+        {
+            if (evento != 0)
+            {
+                evento = 7;
+                Evento eventoId = await _context.Evento.SingleAsync(x => x.Id == evento);
+                int idEvento = eventoId.Id;
+                List<Reserva> rpe = await _context.Reserva.Where(x => x.Evento.Id == idEvento).Include(x => x.Evento).ToListAsync();
+                return View(rpe);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         // Registrarse a un evento
         public async Task<IActionResult> RegisterEvent(string time, Evento evento, AppUser appUser)
         {
@@ -65,19 +90,29 @@ namespace zv01.Controllers
             Reserva r = new Reserva();
             List<Reserva> userReservas = await _context.Reserva.Where(x => x.AppUser.Id == currentUser.Id).Include(x => x.Evento).ToListAsync();
 
-            foreach (var reserva in userReservas.Where(x => x.AppUser.Id == currentUser.Id))
+            if(userReservas.Count!=0)
             {
-                if (reserva.Evento.Id == idEvento)
+
+                foreach (var reserva in userReservas.Where(x => x.AppUser.Id == currentUser.Id))
                 {
-                    isRegistered = true;
-                    return RedirectToAction("Registered", "Reservas");
-                }
-                else
-                {
-                    isRegistered = false;
+                    if (reserva.Evento.Id == idEvento && reserva.EstaBorrado == false)
+                    {
+                        isRegistered = true;
+
+                        return RedirectToAction("Registered", "Reservas");
+                    }
+                    else
+                    {
+                        isRegistered = false;
+                    }
                 }
             }
+            else if(userReservas.Count==0)
+            {
+                    isRegistered = false;              
+            }
 
+            
             if (even.Estado.Id == 1 && !isRegistered)
             {
                 r = new Reserva
@@ -206,12 +241,16 @@ namespace zv01.Controllers
         // POST: Reservas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, Evento evento)
         {
             var reserva = await _context.Reserva.FindAsync(id);
-            _context.Reserva.Remove(reserva);
+            reserva.EstaBorrado = true;
+            reserva.EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 3);
+            evento.AforoActual = evento.AforoActual - 1;
+            _context.Reserva.Update(reserva);
+
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("ReservasUsuario", "Reservas");
         }
 
         private bool ReservaExists(int id)
@@ -224,16 +263,15 @@ namespace zv01.Controllers
             AppUser usuario = await _userManager.GetUserAsync(User);
             List<Reserva> userReservas = new List<Reserva>();
 
-
-            if (_context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento) != null)
+            if (userReservas.Count != 0 || _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento) != null)
             {
-                userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Include(x => x.Evento).ToListAsync();
+                userReservas = await _context.Reserva.Where(x => x.AppUser.Id == usuario.Id).Where(x => x.EstaBorrado == false).Include(x => x.Evento).Include(x => x.EstadoReserva).ToListAsync();
+                return View(userReservas);
             }
             else
             {
                 return RedirectToAction("EmptyList", "Reservas");
             }
-            return View(userReservas);
         }
 
         public async Task<IActionResult> EventosUsuario()

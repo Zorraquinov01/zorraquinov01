@@ -12,12 +12,12 @@
 
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            @if (User.HasClaim("administrador", "administrador"))
+            @if (User.IsInRole("Administrador"))
             {
                 <li> <a asp-controller="AppRoles" asp-action="AdminPanel">Admin Panel</a></li>
                 <li> <a asp-controller="QRImgs" asp-action="Details">QR Reader</a></li>
             }
-            @if (User.HasClaim("pica", "pica"))
+            @if (User.IsInRole("Pica"))
             {
                 
                 <li> <a asp-controller="QRImgs" asp-action="Details">QR Reader</a></li>

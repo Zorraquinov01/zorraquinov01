@@ -52,99 +52,104 @@
 
     <partial name="_CookieConsentPartial" />
     <div class="area"></div><nav class="main-menuss navbar-left">
-        <ul>
-            <li>
-                <br /><br /><br /><br />
-            </li>
-            
-            
-            <li>
-                <a asp-controller="Eventos" asp-action="ListadoEventos"> <i class=" fa fa-calendar fa-2x"></i> <span class="nav-text">  Eventos </span></a>
-                <ul class="dropdown-menu-right">
-                    <li class="has-subnav">
-                        <a asp-controller="Eventos" asp-action="Create"> <i class="fa fa-pencil fa-2x"></i> <span class="nav-text"> Crear Eventos </span></a>
-                           
-                    </li>
-                    <li class="has-subnav">
-                        <a asp-controller="Eventos" asp-action="ListadoEventos"> <i class="fa fa-home fa-2x"></i> <span class="nav-text"> Editar Eventos </span></a>
-                    
-                    </li>
-                </ul>
-            </li>
-            <li class="has-subnav">
-                <a asp-controller="AppRoles" asp-action="Index"> <i class=" fa fa-check-square fa-2x"></i> <span class="nav-text">  Roles de usuarios </span></a>
+                                <ul>
+                                    <li>
+                                        <br /><br /><br /><br />
+                                    </li>
 
-            </li>
-            @*<li class="has-subnav">
-                <a href="#">
-                    <i class="fa fa-list fa-2x"></i>
-                    <span class="nav-text">
-                        Forms
-                    </span>
-                </a>
 
-            </li>
-            <li class="has-subnav">
-                <a href="#">
-                    <i class="fa fa-folder-open fa-2x"></i>
-                    <span class="nav-text">
-                        Pages
-                    </span>
-                </a>
-                
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-bar-chart-o fa-2x"></i>
-                    <span class="nav-text">
-                        Graphs and Statistics
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-font fa-2x"></i>
-                    <span class="nav-text">
-                        Quotes
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-table fa-2x"></i>
-                    <span class="nav-text">
-                        Tables
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-map-marker fa-2x"></i>
-                    <span class="nav-text">
-                        Maps
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-info fa-2x"></i>
-                    <span class="nav-text">
-                        Documentation
-                    </span>
-                </a>
-            </li>
-        </ul>
+                                    <li>
+                                        <a asp-controller="Eventos" asp-action="ListadoEventos"> <i class=" fa fa-calendar fa-2x"></i> <span class="nav-text">  Eventos </span></a>
+                                        <ul class="dropdown-menu-right">
+                                            <li class="has-subnav">
+                                                <a asp-controller="Eventos" asp-action="Create"> <i class="fa fa-pencil fa-2x"></i> <span class="nav-text"> Crear Eventos </span></a>
 
-        <ul class="logout">
-            <li>
-                <a href="#">
-                    <i class="fa fa-power-off fa-2x"></i>
-                    <span class="nav-text">
-                        Logout
-                    </span>
-                </a>
-            </li>
-        </ul>*@
+                                            </li>
+                                            <li class="has-subnav">
+                                                <a asp-controller="Eventos" asp-action="ListadoEventos"> <i class="fa fa-home fa-2x"></i> <span class="nav-text"> Editar Eventos </span></a>
+
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-subnav">
+                                        <a asp-controller="AppRoles" asp-action="Index"> <i class=" fa fa-check-square fa-2x"></i> <span class="nav-text">  Roles de usuarios </span></a>
+
+                                    </li>
+                                    <li class="has-subnav">
+                                        <a asp-controller="Reservas" asp-action="ReservasUsuario"> <i class="fa fa-heart fa-2x"></i> <span class="nav-text">  Mis Reservas </span></a>
+
+                                    </li>
+                                </ul>
+        @*<li class="has-subnav">
+                    <a href="#">
+                        <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            Forms
+                        </span>
+                    </a>
+
+                </li>
+                <li class="has-subnav">
+                    <a href="#">
+                        <i class="fa fa-folder-open fa-2x"></i>
+                        <span class="nav-text">
+                            Pages
+                        </span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-bar-chart-o fa-2x"></i>
+                        <span class="nav-text">
+                            Graphs and Statistics
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-font fa-2x"></i>
+                        <span class="nav-text">
+                            Quotes
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-table fa-2x"></i>
+                        <span class="nav-text">
+                            Tables
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-map-marker fa-2x"></i>
+                        <span class="nav-text">
+                            Maps
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-info fa-2x"></i>
+                        <span class="nav-text">
+                            Documentation
+                        </span>
+                    </a>
+                </li>
+
+
+            <ul class="logout">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                            Logout
+                        </span>
+                    </a>
+                </li>
+            </ul>*@
     </nav>
     <div class="container body-content">
         @RenderBody()
