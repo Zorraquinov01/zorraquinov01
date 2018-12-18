@@ -34,7 +34,7 @@ namespace zv01.Controllers
         }
         public IActionResult Details()
         {
-            //List<Evento> eventList =await _context.Evento.(x => x.Id);
+            //List<Evento> eventList = await _context.Evento.(x=>x.EventName).ToListAsync();
 
             return View();
         }
