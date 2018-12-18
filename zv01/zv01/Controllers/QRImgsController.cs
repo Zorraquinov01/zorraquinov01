@@ -34,8 +34,13 @@ namespace zv01.Controllers
         }
         public IActionResult Details()
         {
+            //List<Evento> eventList =await _context.Evento.(x => x.Id);
 
+            return View();
+        }
 
+        public IActionResult QrChecker(string codigoQr)
+        {
             return View();
         }
 

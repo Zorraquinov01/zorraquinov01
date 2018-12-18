@@ -529,7 +529,7 @@ form .after:after {
 
     .tile:hover img {
         opacity: 0.2;
-        object-fit: scale-down;
+        object-fit: cover;
     }
 
     .tile:hover .animate-text {
