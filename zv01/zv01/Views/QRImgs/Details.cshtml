@@ -1,9 +1,9 @@
-﻿@model zv01.Models.Evento
+﻿@inject zv01.Services.Zv01Services Zv01Services;
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Evento";
 }
+<h2>@ViewData["Title"]</h2>
 
 
 <script type="text/javascript" src="~/js/llqrcode.js"></script>
@@ -42,16 +42,24 @@
                             <td>
                                 <form action="/QRImgs/QrChecker" method="post" id="formQr">
                                     <input type="hidden" name="codigoQr" value="" id="codigoQr" />
+                                    <input type="hidden" name="dropdownId" value="" id="dropdownvalue" />
+                                    
                                     <input type="submit" value="Comprobar código" />
-                                    @{ 
-                                       
+                                    @{
+                                        List<Evento> eventoList = Zv01Services.EventList();
 
-                                        @*foreach (var eventos in )
-                                        {
-                                            <select asp->
-                                                <value> </value>
-                                            </select>
-                                        }*@
+                                        <select class="dropdown" id="dropdownId">
+                                            <option>Elige un Evento</option>
+                                            @foreach (Evento evento in eventoList)
+                                            {
+                                                if (evento.EstaBorrado == false)
+                                                {
+                                                    <option id="eventName_@evento.Id" class="active" value="@evento.Id" name="@evento.EventName">@evento.EventName</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div></div>
+
                                     }
                                 </form>
                             </td>

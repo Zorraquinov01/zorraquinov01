@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using zv01.Data;
+using zv01.Models;
 
 namespace zv01.Services
 {
+
     public class Zv01Services
     {
+        private readonly ApplicationDbContext _context;
+
+        public Zv01Services(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public void EmailSender(string Email)
         {
             System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient("smtp.live.com");
@@ -27,6 +38,13 @@ namespace zv01.Services
             SmtpServer.Send(mail);
             
         }
+
+        public List<Evento> EventList()
+        {
+            List<Evento> eventList = _context.Evento.ToList();
+            return eventList;
+        }
+
     }
 
 }
