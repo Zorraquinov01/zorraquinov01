@@ -246,7 +246,7 @@ namespace zv01.Controllers
             var reserva = await _context.Reserva.FindAsync(id);
             reserva.EstaBorrado = true;
             reserva.EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 3);
-            evento.AforoActual = evento.AforoActual - 1;
+
             _context.Reserva.Update(reserva);
 
             await _context.SaveChangesAsync();
