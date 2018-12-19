@@ -27,7 +27,7 @@ namespace zv01.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.Where(x => x.EstaBorrado == false).ToListAsync());
+            return View(await _context.Reserva.Where(x => x.EstaBorrado == false).Include(x => x.Evento).ToListAsync());
         }
 
         // GET: Reservas/Details/5
@@ -90,7 +90,7 @@ namespace zv01.Controllers
             Reserva r = new Reserva();
             List<Reserva> userReservas = await _context.Reserva.Where(x => x.AppUser.Id == currentUser.Id).Include(x => x.Evento).ToListAsync();
 
-            if(userReservas.Count!=0)
+            if (userReservas.Count != 0)
             {
 
                 foreach (var reserva in userReservas.Where(x => x.AppUser.Id == currentUser.Id))
@@ -107,12 +107,12 @@ namespace zv01.Controllers
                     }
                 }
             }
-            else if(userReservas.Count==0)
+            else if (userReservas.Count == 0)
             {
-                    isRegistered = false;              
+                isRegistered = false;
             }
 
-            
+
             if (even.Estado.Id == 1 && !isRegistered)
             {
                 r = new Reserva
@@ -223,14 +223,14 @@ namespace zv01.Controllers
         }
 
         // GET: Reservas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int idevento)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
+            Reserva reserva = await _context.Reserva
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reserva == null)
             {
@@ -240,21 +240,36 @@ namespace zv01.Controllers
             return View(reserva);
         }
 
-        // POST: Reservas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, Evento evento)
+        public async Task<IActionResult> Borrar(int id, int eventoid)
         {
             var reserva = await _context.Reserva.FindAsync(id);
+            Reserva reservaEspera;
+            int resId = reserva.Id;
             reserva.EstaBorrado = true;
             reserva.EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 3);
+            _context.Reserva.Update(reserva);
+            await _context.SaveChangesAsync();
+            Evento evento = _context.Evento.Single(x => x.Id == eventoid);
+            if (evento.ListaEspera == 0)
+            {
+                evento.AforoActual = evento.AforoActual - 1;
+            }
+            else
+            {
+                evento.ListaEspera = evento.ListaEspera - 1;
+                reservaEspera = _context.Reserva.FirstOrDefault(x => x.EstadoReserva.Id == 2);                
+                reservaEspera.EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1);
+                _context.Reserva.Update(reservaEspera);
+            }
 
+            _context.Evento.Update(evento);
             _context.Reserva.Update(reserva);
 
             await _context.SaveChangesAsync();
+
             return RedirectToAction("ReservasUsuario", "Reservas");
         }
-
+        
         private bool ReservaExists(int id)
         {
             return _context.Reserva.Any(e => e.Id == id);

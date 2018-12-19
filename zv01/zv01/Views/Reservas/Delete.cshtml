@@ -18,10 +18,16 @@
         <dd>
             @Html.DisplayFor(model => model.FechaReserva)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Evento.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Evento.Id)
+        </dd>
     </dl>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+    <form asp-action="Delete" >       
+        <input type="hidden" name="id" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>
