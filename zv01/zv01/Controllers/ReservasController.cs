@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using zv01.Data;
 using zv01.Models;
+using zv01.Services;
 
 
 namespace zv01.Controllers
@@ -27,7 +29,7 @@ namespace zv01.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.Where(x => x.EstaBorrado == false).Include(x => x.Evento).ToListAsync());
+            return View(await _context.Reserva.Where(x => x.EstaBorrado == false).Include(x => x.Evento).Include(x => x.AppUser).ToListAsync());
         }
 
         // GET: Reservas/Details/5
@@ -57,17 +59,12 @@ namespace zv01.Controllers
         public IActionResult EmptyList()
         {
             return View();
-        }
-        public IActionResult ReservasPorEvento()
-        {
-            return View();
-        }
+        }      
 
         public async Task<IActionResult> ReservasPorEvento(int evento, Evento even, Reserva reserva)
         {
             if (evento != 0)
             {
-                evento = 7;
                 Evento eventoId = await _context.Evento.SingleAsync(x => x.Id == evento);
                 int idEvento = eventoId.Id;
                 List<Reserva> rpe = await _context.Reserva.Where(x => x.Evento.Id == idEvento).Include(x => x.Evento).ToListAsync();
@@ -75,7 +72,7 @@ namespace zv01.Controllers
             }
             else
             {
-                return View();
+                return View(await _context.Reserva.Include(x => x.Evento).Include(x => x.AppUser).OrderBy(x=>x.Evento.Id).ToListAsync());
             }
         }
 
@@ -126,6 +123,8 @@ namespace zv01.Controllers
                 };
                 _context.Reserva.Add(r);
                 await _context.SaveChangesAsync();
+                //EmailSender(currentUser.Email, r.EstadoReserva.Id);
+
             }
             else if (even.Estado.Id == 4 && !isRegistered)
             {
@@ -138,9 +137,10 @@ namespace zv01.Controllers
                     EstaBorrado = false,
                     HaAsistido = false
                 };
-
                 _context.Reserva.Add(r);
                 await _context.SaveChangesAsync();
+                //EmailSender(currentUser.Email, r.EstadoReserva.Id);
+
             }
 
 
@@ -240,8 +240,9 @@ namespace zv01.Controllers
             return View(reserva);
         }
 
-        public async Task<IActionResult> Borrar(int id, int eventoid)
+        public async Task<IActionResult> Borrar(int id, int eventoid, string userid)
         {
+            AppUser currentUser = await _context.Users.FindAsync(userid);
             var reserva = await _context.Reserva.FindAsync(id);
             Reserva reservaEspera;
             int resId = reserva.Id;
@@ -249,6 +250,7 @@ namespace zv01.Controllers
             reserva.EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 3);
             _context.Reserva.Update(reserva);
             await _context.SaveChangesAsync();
+            //EmailSender(currentUser.Email, reserva.EstadoReserva.Id);
             Evento evento = _context.Evento.Single(x => x.Id == eventoid);
             if (evento.ListaEspera == 0)
             {
@@ -257,19 +259,19 @@ namespace zv01.Controllers
             else
             {
                 evento.ListaEspera = evento.ListaEspera - 1;
-                reservaEspera = _context.Reserva.FirstOrDefault(x => x.EstadoReserva.Id == 2);                
+                reservaEspera = _context.Reserva.FirstOrDefault(x => x.EstadoReserva.Id == 2);
                 reservaEspera.EstadoReserva = _context.EstadoReservas.Single(x => x.Id == 1);
+
                 _context.Reserva.Update(reservaEspera);
             }
 
             _context.Evento.Update(evento);
             _context.Reserva.Update(reserva);
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction("ReservasUsuario", "Reservas");
         }
-        
+
         private bool ReservaExists(int id)
         {
             return _context.Reserva.Any(e => e.Id == id);
@@ -298,5 +300,50 @@ namespace zv01.Controllers
             List<Evento> userEventos = await _context.Evento.Where(x => x.AppUser.Id == usuario.Id).ToListAsync();
             return View(userEventos);
         }
+
+        public IActionResult EmailSender(string Email, int estadoReserva)
+        {
+            System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient("smtp.live.com");
+            var mail = new MailMessage();
+            mail.From = new MailAddress("holabuenosdias9999@hotmail.com");
+            mail.To.Add(Email);
+            if (estadoReserva == 1)
+            {
+                mail.Subject = "Tu reserva";
+            }
+            else if(estadoReserva == 2)
+            {
+                mail.Subject = "En Lista de Espera";
+            }
+            else
+            {
+                mail.Subject = "Reserva Cancelada";
+            }
+            mail.IsBodyHtml = true;
+            string htmlBody;
+            if(estadoReserva == 1)
+            {
+                htmlBody = "Enhorabuena, te has inscrito con éxito en el evento. Consulta el apartado 'Mis Reservas' de nuestra página.";
+                mail.Body = htmlBody;
+            }
+            if (estadoReserva == 2)
+            {
+                htmlBody = "Tu reserva está en lista de espera. Consulta el apartado 'Mis Reservas' de nuestra página.";
+                mail.Body = htmlBody;
+            }
+            if (estadoReserva == 3)
+            {
+                htmlBody = "Has cancelado tu reserva para el evento. Consulta el apartado 'Mis Reservas' de nuestra página.";
+            mail.Body = htmlBody;
+            }           
+            SmtpServer.Port = 587;
+            SmtpServer.UseDefaultCredentials = false;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("holabuenosdias9999@hotmail.com", "Hectorpeio1.");
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Send(mail);
+
+            return RedirectToAction("ReservasUsuario", "Reservas");
+        }
+
     }
 }

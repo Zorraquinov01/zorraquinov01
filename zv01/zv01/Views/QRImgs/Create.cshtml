@@ -7,16 +7,17 @@
     //gr
 
 
-    //string qrgeneratedtext =  ;
+    int qrgeneratedtext = Model.Id;
 
 }
 <link rel="stylesheet" type="text/css" href="~/css/QR.css">
+<a download="custom-filename.jpg" href="/path/to/image" title="ImageName">
+    <img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' alt='qr' />");
+</a>
 
-@*<img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' alt='qr' />");*@
-
-    @*<div id="form-wrapper" style="width:46%; float:left; border:5px solid rgba(255,255,255,0.6); margin-top:20px; padding:10px">
+@*<div id="form-wrapper" style="width:46%; float:left; border:5px solid rgba(255,255,255,0.6); margin-top:20px; padding:10px">
         <form id="generator">
-           
+
             <input type="text"  id="codeData" name="codeData" size="50" placeholder="Enter a url or text" style="margin-top:20px" autocomplete="off"/ >
             <br>
             <button id="generate">generate</button>
@@ -25,7 +26,7 @@
     </div>*@
 
 
-        <div id="image" style="margin:auto"></div>
-        <div id="link" style="margin-top:10px; text-align:center"></div>
+<div id="image" style="margin:auto"></div>
+<div id="link" style="margin-top:10px; text-align:center"></div>
 
 

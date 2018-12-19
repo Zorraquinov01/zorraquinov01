@@ -14,16 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Id del Evento
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaReserva)
+                Id de Reserva
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstaBorrado)
+                Fecha de la Reserva
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HaAsistido)
+                Está Borrado
+            </th>
+            <th>
+                Ha Asistido
             </th>
             <th></th>
         </tr>
@@ -31,6 +34,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Evento.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
@@ -43,11 +49,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.HaAsistido)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            
         </tr>
 }
     </tbody>

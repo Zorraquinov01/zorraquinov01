@@ -1,6 +1,11 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 @import url(https://fonts.googleapis.com/css?family=Teko:700);
 
+.thumbnaileventos{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+}
 .snip1543 {
     background-color: #fff;
     color: #ffffff;

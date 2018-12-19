@@ -10,7 +10,7 @@
 
 
 <p>
-¡Elige el evento que deseas Editar!.
+    ¡Elige el evento que deseas Editar!.
 </p>
 <h4>&nbsp;</h4>
 <form asp-action="ListadoEventos">
@@ -22,13 +22,16 @@
         <option value="4">Menos reservas</option>
     </select>
     <div class="btn-position">
-            <button class="btn btn-primary">Add</button>
-        </div>
+        <button class="btn btn-primary">Add</button>
+    </div>
 </form>
 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Imgs.ImgUrl)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventName)
             </th>
@@ -56,34 +59,39 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Place)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AforoActual)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AforoTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Visitas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <div class="thumbnail">
+                        <img class="thumbnaileventos" src="@Html.DisplayFor(modelItem => item.Imgs.ImgUrl)" />
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AforoActual)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AforoTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Visitas)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

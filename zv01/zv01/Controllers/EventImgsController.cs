@@ -117,6 +117,8 @@ namespace zv01.Controllers
             evento.EventDate = eventodate.Add(ts);
             evento.Estado = _context.EstadoEventos.Single(x => x.Id == 1);
             evento.Imgs = img;
+            evento.AforoActual = 0;
+            evento.Visitas = 0;
 
             if (ModelState.IsValid)
             {

@@ -3,10 +3,38 @@
     ViewData["Title"] = "RegisterEvent";
     Layout = "~/Views/Shared/_Layout.cshtml";
     //
-    int idreserva = Model.Evento.Id;
+    int idreserva = Model.Id;
+    int idevento = Model.Evento.Id;
 
-    string qrgeneratedtext = Convert.ToString(idreserva);
+    string qrgeneratedtext = Convert.ToString(idreserva) + ":" + Convert.ToString(idevento);
 }
 <link rel="stylesheet" type="text/css" href="~/css/QR.css">
 
-<img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' alt='qr' />
+<div>
+    <h4>Reserva</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Evento.EventName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Evento.EventName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Evento.Place)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Evento.Place)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Evento.EventDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Evento.EventDate)
+        </dd>
+    </dl>
+</div>
+
+<a download="custom-filename.jpg" href="http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150" title="ImageName">
+    <img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' alt='qr' />
+</a>

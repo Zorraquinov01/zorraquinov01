@@ -36,6 +36,7 @@
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <form asp-action="Borrar">
+                        <input type="hidden" asp-for="@item.AppUser.Id" name="userid" value="@item.AppUser.Id" />
                         <input type="hidden" asp-for="@item.Evento.Id" name="eventoid" value="@item.Evento.Id" />
                         <input type="hidden" asp-for="@item.Id" name="id" value="@item.Id" />
 
