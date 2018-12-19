@@ -21,62 +21,6 @@ namespace zv01.Services
             _context = context;
         }
 
-        public static void EmailSender(string Email)
-        {
-            System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient("smtp.live.com");
-            var mail = new MailMessage();
-            mail.From = new MailAddress("holabuenosdias9999999@gmail.com");
-            mail.To.Add(Email);
-            mail.Subject = "Registro en el evento completado. ";
-            mail.IsBodyHtml = true;
-            string htmlBody;
-            htmlBody = "Felicidades, te has registrado con éxito en el evento.";
-            mail.Body = htmlBody;
-            SmtpServer.Port = 587;
-            SmtpServer.UseDefaultCredentials = false;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("holabuenosdias9999999@gmail.com", "HectorPeio1.");
-            SmtpServer.EnableSsl = true;
-            SmtpServer.Send(mail);
-            
-        }
-
-        public static void EmailSenderLE(string Email)
-        {
-            System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient("smtp.live.com");
-            var mail = new MailMessage();
-            mail.From = new MailAddress("holabuenosdias9999999@gmail.com");
-            mail.To.Add(Email);
-            mail.Subject = "Registro en Lista de Espera";
-            mail.IsBodyHtml = true;
-            string htmlBody;
-            htmlBody = "Te has registrado en la Lista de Espera.";
-            mail.Body = htmlBody;
-            SmtpServer.Port = 587;
-            SmtpServer.UseDefaultCredentials = false;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("holabuenosdias9999999@gmail.com", "HectorPeio1.");
-            SmtpServer.EnableSsl = true;
-            SmtpServer.Send(mail);
-
-        }
-
-        public static void EmailSenderCA(string Email)
-        {
-            System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient("smtp.live.com");
-            var mail = new MailMessage();
-            mail.From = new MailAddress("holabuenosdias9999999@gmail.com");
-            mail.To.Add(Email);
-            mail.Subject = "Reserva Cancelada";
-            mail.IsBodyHtml = true;
-            string htmlBody;
-            htmlBody = "Has cancelado tu reserva con éxito.";
-            mail.Body = htmlBody;
-            SmtpServer.Port = 587;
-            SmtpServer.UseDefaultCredentials = false;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("holabuenosdias9999999@gmail.com", "HectorPeio1.");
-            SmtpServer.EnableSsl = true;
-            SmtpServer.Send(mail);    
-        }
-
         public Evento EventoMaxVis()
         {
             var record = _context.Evento.OrderByDescending(x => x.Visitas).Include(x=>x.Imgs).First();

@@ -39,9 +39,40 @@ namespace zv01.Controllers
             return View();
         }
 
-        public IActionResult QrChecker(string codigoQr, string dropdownId)
+        public async Task<IActionResult> QrChecker(string codigoQr, string dropdownId)
         {
+            var qrSplit = codigoQr.Split(':').Select(x => Convert.ToInt32(x)).ToList();
+            int qrReserva = qrSplit[0];
+            int qrEvento = qrSplit[1];
+            int ddwnId = Int32.Parse(dropdownId);
+            Reserva reservaAsist = _context.Reserva.Single(x => x.Id == qrReserva);
+            if (qrEvento == ddwnId)
+            {
+                if (reservaAsist.HaAsistido != true)
+                {
+                    reservaAsist.HaAsistido = true;
+                    _context.Update(reservaAsist);
+                    await _context.SaveChangesAsync();
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("ErrorQRAsist", "QRImgs");
+                }
+            }
+            else
+            {
+                return RedirectToAction("ErrorQREvent", "QrImgs");
+            }
+        }
 
+        public IActionResult ErrorQREvent()
+        {
+            return View();
+        }
+
+        public IActionResult ErrorQRAsist()
+        {
             return View();
         }
 

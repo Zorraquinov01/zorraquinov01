@@ -15,5 +15,6 @@ namespace zv01.Models
         public QRImg QRs { get; set; }
         public bool EstaBorrado { get; set; }
         public bool HaAsistido { get; set; }
+        public string UrlQr { get; set; }
     }
 }
