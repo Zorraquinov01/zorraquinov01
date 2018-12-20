@@ -77,7 +77,7 @@ namespace zv01.Controllers
         }
 
         // Registrarse a un evento
-        public async Task<IActionResult> RegisterEvent(string time, Evento evento, AppUser appUser)
+        public async Task<IActionResult> RegisterEvent(string time, string qrRead, Evento evento, AppUser appUser)
         {
             AppUser currentUser = await _userManager.GetUserAsync(User);
             int idEvento = evento.Id;
@@ -119,7 +119,8 @@ namespace zv01.Controllers
                     Evento = _context.Evento.Single(x => x.Id == idEvento),
                     FechaReserva = fecha,
                     EstaBorrado = false,
-                    HaAsistido = false
+                    HaAsistido = false,
+                    UrlQr= qrRead
                 };
                 _context.Reserva.Add(r);
                 await _context.SaveChangesAsync();

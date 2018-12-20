@@ -9,7 +9,7 @@
     string qrgeneratedtext = Convert.ToString(idreserva) + ":" + Convert.ToString(idevento);
 }
 <link rel="stylesheet" type="text/css" href="~/css/QR.css">
-
+@{string qrRead = "http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150"; }
 <div>
     <h4>Reserva</h4>
     <hr />
