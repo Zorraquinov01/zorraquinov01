@@ -60,15 +60,15 @@
     @{
         if (User.Identity.IsAuthenticated)
         {
-            <a asp-controller="Reservas" asp-action="registerEvent" asp-route-id="@Model.Id">Registrar Evento</a>
+            <a type="button" class="btn btn-primary" class="btn" asp-controller="Reservas" asp-action="registerEvent" asp-route-id="@Model.Id">Registrar Evento</a>
         }
       
     }
     @{
         if (User.IsInRole("Administrador"))
         {
-            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            <a type="button" class="btn btn-primary" class="btn" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
         }
     }
-    <a asp-action="Index">Back to List</a>
+    <a type="button" class="btn btn-primary" asp-action="Index">Back to List</a>
 </div>
