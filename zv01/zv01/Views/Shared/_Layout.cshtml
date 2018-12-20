@@ -42,8 +42,9 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a asp-area="" asp-controller="Eventos" asp-action="Index">Eventos</a></li>
                             @{
-                                if (!User.Identity.IsAuthenticated)
+                                if (User.Identity.IsAuthenticated)
                                 {
+
                                     <li><a asp-area="" asp-controller="Reservas" asp-action="ReservasUsuario">Mis Reservas</a></li>
                                 }
 

@@ -9,9 +9,8 @@
     string qrgeneratedtext = Convert.ToString(idreserva) + ":" + Convert.ToString(idevento);
 }
 <link rel="stylesheet" type="text/css" href="~/css/QR.css">
-@{string qrRead = "http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150"; }
 <div>
-    <h4>Reserva</h4>
+    <h2>Detalles de tu reserva</h2>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -35,6 +34,6 @@
     </dl>
 </div>
 
-<a download="custom-filename.jpg" name="qr" href="http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150" title="ImageName">
-    <img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' alt='qr' />
+<a download="custom-filename.jpg" href="http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150" title="ImageName" name="image">
+    <img src='http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150' name="image" value="http://chart.apis.google.com/chart?cht=qr&chl=@qrgeneratedtext&chs=150" alt='qr' />
 </a>
